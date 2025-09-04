@@ -57,6 +57,18 @@ nvm alias default 'lts/*'
 echo "👉 Installing pnpm..."
 npm install -g pnpm
 
+# --- 6. Install btop ---
+if ! command -v btop &> /dev/null; then
+  echo "👉 Installing btop..."
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    sudo apt update && sudo apt install -y btop
+  elif [[ "$OSTYPE" == "darwin"* ]]; then
+    brew install btop
+  fi
+else
+  echo "✅ btop already installed."
+fi
+
 # --- 6. Final message ---
 echo "🎉 Setup complete! Restart your terminal or run: source ~/.zshrc"
 
