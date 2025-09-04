@@ -69,6 +69,21 @@ else
   echo "✅ btop already installed."
 fi
 
-# --- 6. Final message ---
+# --- 7. Install Ghostty ---
+if ! command -v ghostty &> /dev/null; then
+  echo "👉 Installing Ghostty..."
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    brew install ghostty
+  elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    GHOSTTY_VERSION=$(curl -s https://api.github.com/repos/ghostty-org/ghostty/releases/latest \
+      | grep tag_name | cut -d '"' -f 4)
+    wget -q https://github.com/ghostty-org/ghostty/releases/download/$GHOSTTY_VERSION/ghostty-${GHOSTTY_VERSION#v}-linux-x86_64.tar.gz -O /tmp/ghostty.tar.gz
+    sudo tar -C /usr/local/bin -xzf /tmp/ghostty.tar.gz ghostty
+    rm /tmp/ghostty.tar.gz
+  fi
+else
+  echo "✅ Ghostty already installed."
+fi
+
 echo "🎉 Setup complete! Restart your terminal or run: source ~/.zshrc"
 
